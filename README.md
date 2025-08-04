@@ -20,13 +20,14 @@
 
 ### ▶️ Ejecución
 
-1. Abre `backend/InventarioApp.sln` en Visual Studio.
+1. Abre `back/Inventory.sln` en Visual Studio.
 2. Establece `ProductsService` y `TransactionsService` como proyectos de inicio múltiple.
 3. Ejecuta con F5 o desde terminal:
 
 ```bash
-cd backend/ProductsService
+cd back/ProductServices
 dotnet run
 
-cd ../TransactionsService
+cd ../TransactionServices
 dotnet run
+```
