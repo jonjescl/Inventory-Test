@@ -1,0 +1,8 @@
+<div class="container">
+
+    <button (click)="toggleForm()">
+    {{ showForm ? 'Listado de Productos' : 'Registrar Producto' }}
+  </button>
+  <app-transaction-form *ngIf="showForm" />
+  <app-transaction-list *ngIf="!showForm" />
+</div>

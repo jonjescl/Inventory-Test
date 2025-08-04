@@ -1,0 +1,58 @@
+
+
+    <div class="form-group">
+        <label>Detail:</label>
+        <input [(ngModel)]="transaction.detail" name="detail" required />
+    </div>
+    
+    <div class="form-group">
+        <label>Tipo de transacción:</label>
+        <select [(ngModel)]="transaction.transactionTypeId" name="transactionTypeId" required>
+            <option *ngFor="let c of transactionType" [value]="c.id">{{ c.name }}</option>
+        </select><br />
+    </div>
+
+    
+   <div style="margin-top: 1em;">
+  <label>Producto:</label>
+  <select [(ngModel)]="selectedProductId">
+    <option [value]="0">-- Seleccione --</option>
+    <option *ngFor="let p of products" [value]="p.id">{{ p.name }}</option>
+  </select>
+
+  <label>Cantidad:</label>
+  <input type="number" [(ngModel)]="selectedQuantity" min="1" style="width: 60px;" />
+
+  <button (click)="addProduct()">Agregar</button>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Producto</th>
+      <th>Cantidad</th>
+      <th>Precio Unitario</th>
+      <th>Total</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of transactionItems; let i = index">
+      <td>{{ item.productName }}</td>
+      <td>{{ item.quantity }}</td>
+      <td>{{ item.unitPrice  }}</td>
+      <td>{{ item.totalPrice  }}</td>
+      <td>
+        <button (click)="removeProduct(i)">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="margin-top: 1em;">
+  <strong>Total de la transacción:</strong> {{ totalAmount }}
+</div>
+
+<button style="margin-top: 1em;" (click)="saveTransaction()">Guardar Transacción</button>
+
+  

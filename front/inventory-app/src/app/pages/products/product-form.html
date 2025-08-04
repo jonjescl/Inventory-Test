@@ -1,0 +1,33 @@
+<form (ngSubmit)="submitForm()">
+    <div class="form-group">
+        <label>Nombre:</label>
+        <input [(ngModel)]="product.name" name="name" required />
+    </div>
+    <div class="form-group">
+        <label>Descripción:</label>
+        <input [(ngModel)]="product.description" name="description" required />
+    </div>
+    <div class="form-group">
+        <label>Url Imagen:</label>
+        <input [(ngModel)]="product.image" name="Url" required />
+    </div>
+    <div class="form-group">
+        <label>Precio:</label>
+        <input type="number" [(ngModel)]="product.price" name="price" required />
+    </div>
+    <div class="form-group">
+        <label>Stock:</label>
+        <input type="number" [(ngModel)]="product.stock" name="stock" required />
+    </div>
+    <div class="form-group">
+        <label>Categoría:</label>
+        <select [(ngModel)]="product.categoryId" name="categoryId" required>
+            <option *ngFor="let c of categories" [value]="c.id">{{ c.name }}</option>
+        </select><br />
+    </div>
+    <div class="form-group">
+        <button type="submit">Guardar</button>
+    </div>
+
+  
+</form>

@@ -1,0 +1,90 @@
+<input [(ngModel)]="filterText" placeholder="Buscar producto..." />
+<table>
+  <thead>
+    <tr>
+      <th>Imagen</th>
+      <th>Nombre</th>
+      <th>Descripción</th>
+      
+      <th>Categoría</th>
+      <th>Precio</th>
+      <th>Stock</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of paginatedProducts">
+      
+      <td class="image-cell">
+        <img [src]="p.image" alt="Imagen del producto" />
+      </td>
+      <td>{{ p.name }}</td>
+      <td>{{ p.description }}</td>
+      <td>{{ p.category?.name }}</td>
+      <td>{{ p.price }}</td>
+      <td>{{ p.stock }}</td>
+      <td>
+        <button (click)="openEditModal(p)" title="Editar">
+          <i class="fa fa-edit"></i>
+        </button>
+        <button (click)="deleteProduct(p.id!)" title="Eliminar">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="pagination">
+  <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
+  <span>Página {{ currentPage }} de {{ totalPages }}</span>
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+</div>
+
+<!-- Modal de edición -->
+<div *ngIf="showEditModal" class="modal-overlay">
+  <div class="modal">
+  <form (ngSubmit)="editProduct()" class="modal-form">
+    <h2>Editar Producto</h2>
+
+    <div class="form-group">
+      <label for="name">Nombre</label>
+      <input id="name" type="text" [(ngModel)]="selectedProduct.name" name="name" required />
+    </div>
+
+    <div class="form-group">
+      <label for="description">Descripción</label>
+      <input id="description" type="text" [(ngModel)]="selectedProduct.description" name="description" required />
+    </div>
+
+    <div class="form-group">
+      <label for="image">Imagen</label>
+      <input id="image" type="text" [(ngModel)]="selectedProduct.image" name="image" />
+    </div>
+
+    <div class="form-group">
+      <label for="price">Precio</label>
+      <input id="price" type="number" [(ngModel)]="selectedProduct.price" name="price" required />
+    </div>
+
+    <div class="form-group">
+      <label for="stock">Stock</label>
+      <input id="stock" type="number" [(ngModel)]="selectedProduct.stock" name="stock" required />
+    </div>
+
+    <div class="form-group">
+      <label for="categoryId">Categoría</label>
+      <select id="categoryId" [(ngModel)]="selectedProduct.categoryId" name="categoryId" required>
+        <option [value]="0" disabled>Seleccione una categoría</option>
+        <option *ngFor="let c of categories" [value]="c.id">{{ c.name }}</option>
+      </select>
+      
+    </div>
+
+    <div class="modal-buttons">
+      <button type="submit">Guardar</button>
+      <button type="button" (click)="closeEditModal()">Cancelar</button>
+    </div>
+  </form>
+</div>
+</div>

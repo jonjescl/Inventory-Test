@@ -1,0 +1,104 @@
+<input [(ngModel)]="filterText" placeholder="Buscar por detalle..." />
+<table>
+  <thead>
+    <tr>
+      <th>Fecha</th>
+      <th>Detalle</th>
+      <th>Tipo</th>
+      <th>Total</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of paginatedProducts">
+      <td>{{ p.date }}</td>
+      <td>{{ p.detail }}</td>
+      <td>{{ p.transactionType?.name }}</td>
+      <td>{{ p.totalPrice }}</td>
+      <td>
+        <button (click)="openDetailsModal(p)" title="Detalles">
+          <i class="fa fa-eye"></i>
+        </button>
+        <button (click)="openEditModal(p)" title="Editar">
+          <i class="fa fa-edit"></i>
+        </button>
+
+        <button (click)="deleteTransaction(p.id!)" title="Eliminar">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="pagination">
+  <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
+  <span>Página {{ currentPage }} de {{ totalPages }}</span>
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+</div>
+
+<!-- Modal de edición -->
+<div *ngIf="showEditModal" class="modal-overlay">
+  <div class="modal">
+  <form (ngSubmit)="editTransaction()" class="modal-form">
+    <h2>Editar Transacción</h2>
+
+    <div class="form-group">
+      <label for="date">Fecha</label>
+      <input id="date" type="text" [(ngModel)]="selectedTransaction.date" name="name" required />
+    </div>
+
+    <div class="form-group">
+      <label for="detail">Detalle</label>
+      <input id="detail" type="text" [(ngModel)]="selectedTransaction.detail" name="detail" required />
+    </div>
+
+    
+    <div class="form-group">
+      <label for="totalPrice">Precio</label>
+      <input id="totalPrice" type="number" [(ngModel)]="selectedTransaction.totalPrice" name="totalPrice" required />
+    </div>
+
+    <div class="form-group">
+      <label for="transactionTypeId">Tipo</label>
+      <select id="transactionTypeId" [(ngModel)]="selectedTransaction.transactionTypeId" name="transactionTypeId" required>
+        <option [value]="0" disabled>Seleccione tipo</option>
+        <option *ngFor="let c of transactionType" [value]="c.id">{{ c.name }}</option>
+      </select>
+      
+    </div>
+
+    <div class="modal-buttons">
+      <button type="submit">Guardar</button>
+      <button type="button" (click)="closeEditModal()">Cancelar</button>
+    </div>
+  </form>
+</div>
+</div>
+<!-- Modal de detalles -->
+<div *ngIf="showDetailModal" class="modal-overlay">
+  <div class="modal">
+    <h3>Detalles de Transacción #{{ selectedTransaction.id }}</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Precio Unitario</th>
+          <th>Precio Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of transactionProducts">
+          <td>{{ item.productName }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.unitPrice }}</td>
+          <td>{{ item.totalPrice }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button (click)="closeDetailsModal()">Cerrar</button>
+  </div>
+</div>
